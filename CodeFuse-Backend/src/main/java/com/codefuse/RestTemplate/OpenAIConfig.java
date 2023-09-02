@@ -22,4 +22,6 @@ public class OpenAIConfig {
         });
         return restTemplate;
     }
+    
+    
 }
