@@ -1,6 +1,6 @@
 # CodeFuse - Interview Taking Platform
 
-!(https://cdn.discordapp.com/attachments/1128079625818480751/1147595690738987108/Screenshot_2023-09-02_234404-removebg-preview.png)
+(https://cdn.discordapp.com/attachments/1128079625818480751/1147595690738987108/Screenshot_2023-09-02_234404-removebg-preview.png)
 
 ## Table of Contents
 - [Introduction](#introduction)
