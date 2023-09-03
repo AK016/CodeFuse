@@ -5,7 +5,9 @@
 /.pnp
 .pnp.js
 .github/**/node_modules
-
+.gitignore
+package-lock.json
+package.json
 
 # testing
 /coverage

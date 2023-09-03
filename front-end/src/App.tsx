@@ -1,12 +1,16 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import { ChatBox } from './Components/ChatBox';
-
+import NavBar from './Components/NavBar';
+import Footer from './Components/Footer.';
+import MainRoutes from './Routes/MainRoute';
 function App() {
   return (
     <div className="App">
-      <ChatBox />
+
+      <NavBar/>
+      <MainRoutes/>
+      <Footer/>
+
     </div>
   );
 }
