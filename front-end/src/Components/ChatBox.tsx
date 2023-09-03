@@ -18,11 +18,13 @@ export const ChatBox = () => {
 
     const handleFeedback = () => {
         setMessage("share your feedback")
+        setConversation([...conversation, message])
         sendMessage()
     }
 
     const handleEnd = () => {
         setMessage("end the interview")
+        setConversation([...conversation, message])
         sendMessage()
         startNewConversation()
     }
@@ -107,7 +109,7 @@ export const ChatBox = () => {
                     conversation.map((message, index) => (
                         index % 2 !== 0 ?
                             <div className="flex mb-2 justify-start">
-                                <div className="flex bg-yellow-100 rounded-lg p-2  px-5 items-center">
+                                <div className="flex bg-yellow-100 rounded-lg p-2  px-5">
                                     <div className='mt-1'>
                                         <FaGgCircle size={"25px"} color='gray' />
                                     </div>
@@ -116,7 +118,7 @@ export const ChatBox = () => {
                             </div>
                             :
                             <div key={index} className="flex mb-2 justify-end">
-                                <div className="flex bg-gray-100 rounded-lg p-2  px-5 justify-end items-center">
+                                <div className="flex bg-gray-100 rounded-lg p-2  px-5 justify-end ">
                                     <p className='text-gray-600 font-bold-lg mr-5 text-md text-justify'>{message}</p>
                                     <div className='mt-1'>
                                         <FaUserGraduate size={"20px"} className='m-1' />
