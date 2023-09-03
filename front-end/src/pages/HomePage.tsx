@@ -38,15 +38,15 @@ const HomePage = () => {
     }
 
     const handleMERN = () => {
-        navigate("/interview/1")
+        navigate(`/interview/${0}`)
     }
 
     const handleNodeJs = () => {
-        navigate("/interview/2")
+        navigate(`/interview/${1}`)
     }
 
     const handleJava = () => {
-        navigate("/interview/3")
+        navigate(`/interview/${2}`)
     }
 
     return (
