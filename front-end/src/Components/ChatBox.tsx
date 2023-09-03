@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { FaGgCircle, FaUserGraduate, FaRegEdit, FaRegWindowClose, FaPlay } from "react-icons/fa";
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 const prompts: string[] = [
     "I want you to act as an interviewer. I will be the candidate and you will ask me the interview questions for the position of Frontend Software Developer.That will require me to have the following content: HTML, CSS, JS, React, Redux, Typescript.I want you to only reply as the interviewer. Do not write all the conservation at once. I want you to only do the technical interview with me on coding. Ask me the questions and wait for my answers. I will say the phrase “start the interview” for you to start. Ask one question at a time  if I am not able to answer satisfactorily, give me feedback in this framework: ####D: Definition U: Usecase B: Benefit X: Extra Information##### {<Ask me the questions individually like an interviewer and wait for my answers.>} Questions can include both new questions and follow up questions from the previous questions. Continue the process until I ask you to stop.  And, you will stop the interview when I tell you to stop using the phrase “stop the interview”. After that, you would provide me feedback ```when I ask you using the phrase, “share your feedback”.The cumulative feedback generated at the end should be evaluated using the following rubrics. While grading my responses you have to very strict like a real interviewer. 1.Subject Matter Expertise 2.Communication skills 3. Problem Solving skills 4.Hiring criteria : Options are Reject, Waitlist, Hire and Strong Hire. Feedback for Subject Matter Expertise and Communication skills should contain ratings on my interview responses from 0 - 10. Some Example questions: 1.What is virtual DOM in react 2.What is middleware and why is it used?  3. How to debug this piece of code. 4. What is hoisting ? is let and const variable get hoisted? 5.What is RESTful API? These questions are sample question they need not to be included in actual questions. So without any further delay `start the interview` with your first question ",
@@ -12,7 +13,7 @@ export const ChatBox = () => {
 
     const inputRef = useRef<HTMLInputElement | null>(null);
     const [response, setResponse] = useState<boolean>(true);
-
+    const { id } = useParams()
 
     const handleFeedback = () => {
         setMessage("share your feedback")
@@ -45,8 +46,9 @@ export const ChatBox = () => {
 
 
     useEffect(() => {
-        // sendMessage(prompts[id])
+        setMessage(prompts[Number(id)])
         sendMessage()
+        setMessage("")
     }, [])
 
     const startNewConversation = async () => {
@@ -68,41 +70,51 @@ export const ChatBox = () => {
             inputRef.current?.focus();
         }
     }
+    const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        e.preventDefault();
+        if (message) {
+            sendMessage();
+            setResponse(true);
+            setMessage("");
+        } else {
+            inputRef.current?.focus();
+        }
+    };
 
 
 
     return (
-        <div className='h-screen bg-gray-50 rounded-md m-5 p-2 w-4/5 m-auto'>
+        <div className='h-screen rounded-md my-10 m-5 px-10 w-auto m-auto'>
 
-            <div className='bg-purple-200 rounded-md p-3 text-purple-700 font-bold text-lg'>
-                <h1>{"Based on index"}</h1>
+            <div className='bg-gray-600 rounded-md p-3 text-purple-700 font-bold text-lg'>
+                <h1 className='text-white'>{id == "1" ? "MERN" : id == "2" ? "NodeJs" : "Java"}</h1>
             </div>
 
 
             <div className="h-96 overflow-y-scroll border rounded-lg p-4">
                 <div className="flex mb-2 justify-start">
-                    <div className="flex bg-purple-400 rounded-lg p-2 w-3/4">
+                    <div className="flex bg-yellow-100 rounded-lg p-2 px-5 items-center">
                         <div className='mt-1'>
-                            <FaGgCircle size={"25px"} color='purple' />
+                            <FaGgCircle size={"25px"} color='gray' />
                         </div>
-                        <p className='text-left text-white font-bold-md ml-3 text-lg'>Welcome to CodeFuse !!!</p>
+                        <p className='text-left text-gray-600 font-bold-md ml-3 text-md'>Welcome to CodeFuse !!! </p>
                     </div>
                 </div>
                 {
                     conversation.map((message, index) => (
                         index % 2 !== 0 ?
-                            <div key={index} className="flex mb-2 justify-start">
-                                <div className="flex bg-purple-400 rounded-lg p-2 w-3/4">
+                            <div className="flex mb-2 justify-start">
+                                <div className="flex bg-yellow-100 rounded-lg p-2  px-5 items-center">
                                     <div className='mt-1'>
-                                        <FaGgCircle size={"25px"} color='purple' />
+                                        <FaGgCircle size={"25px"} color='gray' />
                                     </div>
-                                    <p className='text-left text-white font-bold-md ml-3 text-lg'>{message}</p>
+                                    <p className='text-left text-gray-600 font-bold-md ml-3 text-md'>{message}</p>
                                 </div>
                             </div>
                             :
                             <div key={index} className="flex mb-2 justify-end">
-                                <div className="flex bg-gray-100 rounded-lg p-2 w-3/4 justify-end">
-                                    <p className='text-gray-600 font-bold-lg mr-5 text-lg text-justify'>{message}</p>
+                                <div className="flex bg-gray-100 rounded-lg p-2  px-5 justify-end items-center">
+                                    <p className='text-gray-600 font-bold-lg mr-5 text-md text-justify'>{message}</p>
                                     <div className='mt-1'>
                                         <FaUserGraduate size={"20px"} className='m-1' />
                                     </div>
@@ -110,18 +122,32 @@ export const ChatBox = () => {
                             </div>
                     ))
                 }
-                {response ? <p className='text-left ml-5'> Typing....</p> : ""}
+                {response ?
+                    <div className="flex mb-2 justify-start">
+                        <div className="flex bg-yellow-100 rounded-lg p-2  px-5 items-center">
+                            <div className='mt-1'>
+                                <FaGgCircle size={"25px"} color='gray' />
+                            </div>
+                            <p className='text-left text-gray-600 font-bold-md ml-3 text-lg '>Typing...</p>
+                        </div>
+                    </div>
+                    : ""}
             </div>
 
 
-            <div className='flex justify-between my-5 mx-10'>
-                <div className='w-3/4' >
+            <div className='flex justify-between my-5' >
+                <div className='w-4/5'>
                     <input className="w-full h-12 px-4 py-2 border rounded-lg text-gray-800 focus:outline-none focus:border-blue-500"
                         placeholder="Enter your text here..."
                         ref={inputRef}
                         type="text"
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
+                        onKeyUp={(e) => {
+                            if (e.key === 'Enter') {
+                                handleEnter(e);
+                            }
+                        }}
                     />
                 </div>
                 <div>
@@ -133,7 +159,7 @@ export const ChatBox = () => {
                 </div>
             </div>
 
-            <div className='flex bg-purple-200 rounded-md m-5 p-10 m-auto gap-20 justify-center'>
+            <div className='flex bg-yellow-100 rounded-md m-5 p-10 m-auto gap-10 justify-center'>
 
                 <button className='flex items-center bg-white p-3 text-gray-700 font-medium rounded-lg hover:bg-gray-200'>
                     <FaRegEdit size={"20px"} className='m-1' onClick={handleFeedback} />
