@@ -15,7 +15,7 @@ const prompts: string[] = [
 export const ChatBox = () => {
 
     const inputRef = useRef<HTMLInputElement | null>(null);
-    const [response, setResponse] = useState<boolean>(true);
+    const [response, setResponse] = useState<boolean>(false);
     const { id } = useParams()
     let myId = Number(id)
 
