@@ -160,12 +160,12 @@ export const ChatBox = () => {
 
             <div className='flex bg-yellow-100 rounded-md m-5 p-10 m-auto gap-10 justify-center'>
 
-                <button className='flex items-center bg-white p-3 text-gray-700 font-medium rounded-lg hover:bg-gray-200'>
-                    <FaRegEdit size={"20px"} className='m-1' onClick={handleFeedback} />
+                <button className='flex items-center bg-white p-3 text-gray-700 font-medium rounded-lg hover:bg-gray-200' onClick={handleFeedback} >
+                    <FaRegEdit size={"20px"} className='m-1' />
                     GENERATE FEEDBACK
                 </button>
-                <button className='flex items-center bg-white p-3 text-red-700 font-medium rounded-lg hover:bg-gray-200'>
-                    <FaRegWindowClose size={"20px"} className='m-1' onClick={handleEnd} />
+                <button className='flex items-center bg-white p-3 text-red-700 font-medium rounded-lg hover:bg-gray-200' onClick={handleEnd}>
+                    <FaRegWindowClose size={"20px"} className='m-1' />
                     END INTERVIEW
                 </button>
             </div>
