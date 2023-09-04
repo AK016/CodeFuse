@@ -14,9 +14,9 @@ const NavBar = () => {
     return classes.filter(Boolean).join(" ");
   }
   return (
-    <div className="flex justify-around items-center border-black shadow-md">
+    <div className="flex justify-between items-center border-black shadow-md" >
       {/* logo */}
-      <div className="flex flex-shrink-0 items-center justify-center w-40 overflow-hidden relative">
+      <div className="flex flex-shrink-0 items-center justify-center w-20 overflow-hidden relative"  >
         <Link to={"/"}>
           <img className="h-full overflow-hidden relative" src={logo} alt="logo" />
         </Link>

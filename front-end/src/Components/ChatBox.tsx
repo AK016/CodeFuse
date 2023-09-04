@@ -2,14 +2,12 @@ import React, { useState, useRef, useEffect } from 'react'
 import { FaGgCircle, FaUserGraduate, FaRegEdit, FaRegWindowClose, FaPlay } from "react-icons/fa";
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import picture from "../images/interview.jpg"
 
 const prompts: string[] = [
-    "I want you to act as an interviewer. I will be the candidate and you will ask me the interview questions for the position of Frontend Software Developer. That will require me to have the following content: HTML, CSS, JS, React, Redux, Typescript.I want you to only reply as the interviewer. Ask me the questions and wait for my answers. Ask one question at a time.Ask me the questions individually like an interviewer and wait for my answers.Continue the process until I ask you to stop.And, you will stop the interview when I tell you to stop using the phrase “stop the interview”. After that, you would provide me feedback ```when I ask you using the phrase, “share your feedback”.The cumulative feedback generated at the end should be evaluated using the following rubrics. While grading my responses you have to very strict like a real interviewer. 1.Subject Matter Expertise 2.Communication skills 3. Problem Solving skills 4.Hiring criteria : Options are Reject, Waitlist, Hire and Strong Hire. Feedback for Subject Matter Expertise and Communication skills should contain ratings on my interview responses from 0 - 10.So without any further delay `start the interview` with your first question ",
-    "I want you to act as an interviewer. I will be the candidate and you will ask me the interview questions for the position of Node backend Software Developer. That will require me to have the following content: Express, Nodejs, MongoDB, javascript.I want you to only reply as the interviewer. Ask me the questions and wait for my answers. Ask one question at a time.Ask me the questions individually like an interviewer and wait for my answers.Continue the process until I ask you to stop.And, you will stop the interview when I tell you to stop using the phrase “stop the interview”. After that, you would provide me feedback ```when I ask you using the phrase, “share your feedback”.The cumulative feedback generated at the end should be evaluated using the following rubrics. While grading my responses you have to very strict like a real interviewer. 1.Subject Matter Expertise 2.Communication skills 3. Problem Solving skills 4.Hiring criteria : Options are Reject, Waitlist, Hire and Strong Hire. Feedback for Subject Matter Expertise and Communication skills should contain ratings on my interview responses from 0 - 10.So without any further delay `start the interview` with your first question ",
+    "I want you to act as an interviewer. I will be the candidate and you will ask me the interview questions for the position of Frontend Software Developer. That will require me to have the following content: HTML, CSS, JS, React, Redux, Typescript.I want you to only reply as the interviewer. Ask me the questions and wait for my answers. Ask one question at a time.Ask me the questions individually like an interviewer and wait for my answers.Continue the process until I ask you to stop.And, you will stop the interview when I tell you to stop using the phrase “stop the interview”. After that, you would provide me feedback ```when I ask you using the phrase, “share your feedback”.The cumulative feedback generated at the end should be evaluated using the following rubrics. While grading my responses you have to very strict like a real interviewer. 1.Subject Matter Expertise 2.Communication skills 3. Problem Solving skills 4.Hiring criteria : Options are Reject, Waitlist, Hire and Strong Hire. Feedback for Subject Matter Expertise and Communication skills should contain ratings on my interview responses from 0 - 10. Some examples questions you can ask:1.what is props drilling? 2.What is useEffect?. So without any further delay `start the interview` with your first question ",
+    "I want you to act as an interviewer. I will be the candidate and you will ask me the interview questions for the position of Node backend Software Developer. That will require me to have the following content: Express.js, Nodejs, MongoDB, javascript.I want you to only reply as the interviewer. Ask me the questions and wait for my answers. Ask one question at a time.Ask me the questions individually like an interviewer and wait for my answers.Continue the process until I ask you to stop.And, you will stop the interview when I tell you to stop using the phrase “stop the interview”. After that, you would provide me feedback ```when I ask you using the phrase, “share your feedback”.The cumulative feedback generated at the end should be evaluated using the following rubrics. While grading my responses you have to very strict like a real interviewer. 1.Subject Matter Expertise 2.Communication skills 3. Problem Solving skills 4.Hiring criteria : Options are Reject, Waitlist, Hire and Strong Hire. Feedback for Subject Matter Expertise and Communication skills should contain ratings on my interview responses from 0 - 10.Some examples questions you can ask:1.what is middlewares in express.js? 2.What is a server? So without any further delay `start the interview` with your first question ",
     "I want you to act as an interviewer. I will be the candidate and you will ask me the interview questions for the position of backend Software Developer.That will require me to have the following content:- Disadvantages of JDBC, Advantages of JPA over JDBC ,Entity Life Cycle,How to perform CRUD (Create, Read, Update & Delete) operation in hibernate, Granularity Mismatch, Inheritance Mapping,Association Mapping  .I want you to only reply as the interviewer. Ask me the questions and wait for my answers. Ask one question at a time.Ask me the questions individually like an interviewer and wait for my answers.Continue the process until I ask you to stop.And, you will stop the interview when I tell you to stop using the phrase “stop the interview”. After that, you would provide me feedback ```when I ask you using the phrase, “share your feedback”.The cumulative feedback generated at the end should be evaluated using the following rubrics. While grading my responses you have to very strict like a real interviewer. 1.Subject Matter Expertise 2.Communication skills 3. Problem Solving skills 4.Hiring criteria : Options are Reject, Waitlist, Hire and Strong Hire. Feedback for Subject Matter Expertise and Communication skills should contain ratings on my interview responses from 0 - 10.So without any further delay `start the interview` with your first question ",
-
-    //"I want you to act as an interviewer. I will be the candidate and you will ask me the interview questions for the position of Node backend Software Developer.That will require me to have the following content: Express, Nodejs, MongoDB, javascript.I want you to only reply as the interviewer. Do not write all the conservation at once. I want you to only do the technical interview with me on coding. Ask me the questions and wait for my answers. I will say the phrase “start the interview” for you to start. Ask one question at a time  if I am not able to answer satisfactorily, give me feedback in this framework: ####D: Definition U: Usecase B: Benefit X: Extra Information##### {<Ask me the questions individually like an interviewer and wait for my answers.>} Questions can include both new questions and follow up questions from the previous questions. Continue the process until I ask you to stop.  And, you will stop the interview when I tell you to stop using the phrase “stop the interview”. After that, you would provide me feedback ```when I ask you using the phrase, “share your feedback”.The cumulative feedback generated at the end should be evaluated using the following rubrics. While grading my responses you have to very strict like a real interviewer. 1.Subject Matter Expertise 2.Communication skills 3. Problem Solving skills 4.Hiring criteria : Options are Reject, Waitlist, Hire and Strong Hire. Feedback for Subject Matter Expertise and Communication skills should contain ratings on my interview responses from 0 - 10. Some Example questions: 1.What is npm? 2.What is middleware and why is it used?  3.Explain the concept of modules in express.js 4.What is the significance of the package.json file? 5.What is RESTful API? These questions are sample question they need not to be included in actual questions. So without any further delay `start the interview` with your first question ",
-    //"I want you to act as an interviewer. I will be the candidate and you will ask me the interview questions for the position of backend Software Developer.That will require me to have the following content - Disadvantages of JDBC - Advantages of JPA over JDBC - Entity Life Cycle - How to perform CRUD (Create, Read, Update & Delete) operation in hibernate - Granularity Mismatch - Inheritance Mapping - Association Mapping . #### I want you to only reply as the interviewer. Do not write all the conservation at once. I want you to only do the coding technical interview with me. Ask me the questions and wait for my answers. I will say the phrase “start the interview” for you to start. Ask one question at a time  if I am not able to answer satisfactorily, give me feedback in this framework: #### REACTO: R: Repeat (Repeating the question in your own word) E: Examples (Give some examples to clear out the meaning) and edge cases A: Approach (Discussing the approach to solve the question) C: Code (Writing the code with proper indentation, commenting and proper coding format) T: Testing the code (With some own test cases) O: Optimise (Use optimisation to optimise the already present code) And rate my each answer from 0-10 on the following parameter 1.Subject Matter Expertise 2.Communication skills 3. Problem solving skills ##### Follow the above REACTO framework strictly. {<Ask me the questions individually like an interviewer and wait for my answers.>} Questions can include both new questions and follow up questions from the previous questions. Continue the process until I ask you to stop.  And, you will stop the interview when I tell you to stop using the phrase “stop the interview”. After that, you would provide me feedback when I ask you using the phrase, “share your feedback”. The feedback should be evaluated using the following rubrics 1.Subject Matter Expertise 2.Communication skills 3.Hiring criteria : Options are Reject, Waitlist, Hire and Strong Hire 4. Problem Solving skills Feedback for Subject Matter Expertise and Communication skills should contain ratings on my interview responses from 0 - 10 Some Example questions: 1. Create a todo app 2. Explain useState and useEffect through code 3. How to debug this piece of code. So without any further delay `start the interview`with your first question.",
 ]
 
 export const ChatBox = () => {
@@ -17,65 +15,63 @@ export const ChatBox = () => {
     const inputRef = useRef<HTMLInputElement | null>(null);
     const [response, setResponse] = useState<boolean>(false);
     const [end, setEnd] = useState<boolean>(false);
+    const [startBtn, setStart] = useState(false);
+    const [disbleSend, setDisaleSend] = useState(false);
     const { id } = useParams()
     let myId = Number(id)
     const navigate = useNavigate()
 
     const handleFeedback = () => {
         setMessage("share your feedback")
+        sendMessage()
         setEnd(true)
     }
 
     const handleEnd = () => {
-        setMessage("");
         startNewConversation();
-        navigate("/")
+        setEnd(false);
+        navigate("/");
     }
 
     const [message, setMessage] = useState<string>(prompts[myId]);
     const [conversation, setConversation] = useState<string[]>([]);
 
     const sendMessage = async () => {
-        setResponse(true)
-        try {
-            const response = await axios.get('/chat', {
-                params: {
-                    prompt: message,
-                },
-            });
-            setConversation(response.data);
-            console.log(response.data);
+        if (message) {
+            setDisaleSend(true)
+            setResponse(true)
+            let msg = message
             setMessage('');
-        } catch (error) {
-            console.error('Error sending message:', error);
+            setConversation([...conversation, msg])
+            try {
+                const response = await axios.get('https://codefuse-production.up.railway.app/chat', {
+                    params: {
+                        prompt: msg,
+                    },
+                });
+                setConversation(response.data);
+                console.log(response.data);
+                // setMessage('');
+            } catch (error) {
+                console.error('Error sending message:', error);
+            }
+            setResponse(false)
+            setDisaleSend(false)
+        } else {
+            inputRef.current?.focus();
         }
-        setResponse(false)
+
     };
-
-
-    // useEffect(() => {
-    //     sendMessage()
-    // }, [])
 
     const startNewConversation = async () => {
         try {
-            await axios.get('/startNewConversation');
+            await axios.get('https://codefuse-production.up.railway.app/startNewConversation');
             setConversation([]); // Clear the conversation history
         } catch (error) {
             console.error('Error starting a new conversation:', error);
         }
     };
 
-    const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
-        if (message) {
-            sendMessage()
-            setResponse(true)
-            setMessage("")
-        } else {
-            inputRef.current?.focus();
-        }
-    }
 
     const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
         e.preventDefault();
@@ -88,6 +84,24 @@ export const ChatBox = () => {
         }
     };
 
+    const handleStart = () => {
+        startNewConversation()
+        sendMessage()
+        setStart(true)
+    }
+
+
+    if (startBtn == false) {
+        return (
+            <div className='h-1/2 p-5 flex flex-row justify-center items-center' >
+                <div className='w-1/4 h-80 relative mr-20'>
+                    <img src={picture} alt="" className='h-full object-cover rounded-lg' />
+                    <div className=" inset-0 bg-white opacity-50 rounded-lg"></div>
+                </div>
+                <button className='mt-5 flex justify-start items-center bg-gray-200 p-3 text-gray-700 font-medium rounded-lg hover:bg-gray-300' onClick={handleStart}>Start Interview Now</button>
+            </div>
+        )
+    }
 
 
     return (
@@ -110,23 +124,26 @@ export const ChatBox = () => {
                 {
                     conversation?.map((message, index) => (
                         index % 2 !== 0 ?
-                            <div key={index} className="flex mb-2 justify-start">
-                                <div className="flex bg-yellow-100 rounded-lg p-2  px-5">
+                            <div key={index} className="flex mb-2 justify-start max-w-[75%]">
+                                <div className="flex bg-yellow-100 rounded-lg p-2 px-5">
                                     <div className='mt-1'>
                                         <FaGgCircle size={"25px"} color='gray' />
                                     </div>
-                                    <p className='text-left text-gray-600 font-bold-md ml-3 text-md'>{message}</p>
+                                    <p className='text-left text-gray-600 font-bold-md ml-3 text-md' dangerouslySetInnerHTML={{ __html: message.replace('\n', '<br />') }}></p>
+                                    {/* <p className='text-left text-gray-600 font-bold-md ml-3 text-md'>{message}</p> */}
                                 </div>
                             </div>
                             :
-                            <div key={index} className="flex mb-2 justify-end">
-                                <div className="flex bg-gray-100 rounded-lg p-2  px-5 justify-end ">
-                                    <p className='text-gray-600 font-bold-lg mr-5 text-md text-justify'>{message}</p>
-                                    <div className='mt-1'>
-                                        <FaUserGraduate size={"20px"} className='m-1' />
+                            index !== 0 ?
+                                <div key={index} className="flex mb-2  justify-end">
+                                    <div className="flex bg-gray-100 max-w-[75%] rounded-lg p-2 right-0 px-5 justify-end ">
+                                        <p className='text-gray-600 font-bold-lg mr-5 text-md text-justify' dangerouslySetInnerHTML={{ __html: message.replace('\n', '<br />') }}></p>
+                                        {/* <p className='text-gray-600 font-bold-lg mr-5 text-md text-justify'>{message}</p> */}
+                                        <div className='mt-1'>
+                                            <FaUserGraduate size={"20px"} className='m-1' />
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
+                                </div> : ""
                     ))
                 }
                 {response ?
@@ -153,8 +170,8 @@ export const ChatBox = () => {
                     />
                 </div>
                 <div>
-                    <button className='flex items-center bg-green-200 p-3 text-gray-700 font-medium rounded-lg hover:bg-gray-200'
-                        onClick={sendMessage}
+                    <button className={`flex items-center bg-green-200 p-3 text-gray-700 font-medium rounded-lg hover:bg-gray-200 ${disbleSend ? 'cursor-not-allowed' : ''}`}
+                        onClick={sendMessage} disabled={disbleSend}
                     >
                         <FaPlay size={"20px"} className='m-1' />
                     </button>
