@@ -92,12 +92,14 @@ Open your web browser and navigate to [http://localhost:3000](http://localhost:3
 
 ### API Documentation
 
-For API documentation and endpoints, refer to the [API documentation](./API_DOCUMENTATION.md) file.
+For API documentation and endpoints, refer to the [Swagger API documentation](http://localhost:8888/swagger-ui/index.html#/).
 
-## Contributing
+## Contributors
 
-We welcome contributions from the community. If you'd like to contribute to CodeFuse, please review our [Contribution Guidelines](./CONTRIBUTING.md).
+- [Krishna Vaishnav](https://github.com/KrishnaVaishnav98)
+- [Akshay Kadam](https://github.com/AK016)
+- [Aniket Sengar](https://github.com/Anklet9)
+- [Swati Anchatageri](https://github.com/swati-anchatageri)
+- [Shivendra Kumar](https://github.com/shivendra-somr)
 
-## License
 
-This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
