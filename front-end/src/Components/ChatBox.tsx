@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { FaGgCircle, FaUserGraduate, FaRegEdit, FaRegWindowClose, FaPlay } from "react-icons/fa";
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const prompts: string[] = [
-    "I want you to act as an interviewer. I will be the candidate and you will ask me the interview questions for the position of Frontend Software Developer.That will require me to have the following content: HTML, CSS, JS, React, Redux, Typescript.I want you to only reply as the interviewer. Ask me the questions and wait for my answers. Ask one question at a time.Ask me the questions individually like an interviewer and wait for my answers.Continue the process until I ask you to stop.And, you will stop the interview when I tell you to stop using the phrase “stop the interview”. After that, you would provide me feedback ```when I ask you using the phrase, “share your feedback”.The cumulative feedback generated at the end should be evaluated using the following rubrics. While grading my responses you have to very strict like a real interviewer. 1.Subject Matter Expertise 2.Communication skills 3. Problem Solving skills 4.Hiring criteria : Options are Reject, Waitlist, Hire and Strong Hire. Feedback for Subject Matter Expertise and Communication skills should contain ratings on my interview responses from 0 - 10.So without any further delay `start the interview` with your first question ",
-    "I want you to act as an interviewer. I will be the candidate and you will ask me the interview questions for the position of Node backend Software Developer.That will require me to have the following content: Express, Nodejs, MongoDB, javascript.I want you to only reply as the interviewer. Ask me the questions and wait for my answers. Ask one question at a time.Ask me the questions individually like an interviewer and wait for my answers.Continue the process until I ask you to stop.And, you will stop the interview when I tell you to stop using the phrase “stop the interview”. After that, you would provide me feedback ```when I ask you using the phrase, “share your feedback”.The cumulative feedback generated at the end should be evaluated using the following rubrics. While grading my responses you have to very strict like a real interviewer. 1.Subject Matter Expertise 2.Communication skills 3. Problem Solving skills 4.Hiring criteria : Options are Reject, Waitlist, Hire and Strong Hire. Feedback for Subject Matter Expertise and Communication skills should contain ratings on my interview responses from 0 - 10.So without any further delay `start the interview` with your first question ",
+    "I want you to act as an interviewer. I will be the candidate and you will ask me the interview questions for the position of Frontend Software Developer. That will require me to have the following content: HTML, CSS, JS, React, Redux, Typescript.I want you to only reply as the interviewer. Ask me the questions and wait for my answers. Ask one question at a time.Ask me the questions individually like an interviewer and wait for my answers.Continue the process until I ask you to stop.And, you will stop the interview when I tell you to stop using the phrase “stop the interview”. After that, you would provide me feedback ```when I ask you using the phrase, “share your feedback”.The cumulative feedback generated at the end should be evaluated using the following rubrics. While grading my responses you have to very strict like a real interviewer. 1.Subject Matter Expertise 2.Communication skills 3. Problem Solving skills 4.Hiring criteria : Options are Reject, Waitlist, Hire and Strong Hire. Feedback for Subject Matter Expertise and Communication skills should contain ratings on my interview responses from 0 - 10.So without any further delay `start the interview` with your first question ",
+    "I want you to act as an interviewer. I will be the candidate and you will ask me the interview questions for the position of Node backend Software Developer. That will require me to have the following content: Express, Nodejs, MongoDB, javascript.I want you to only reply as the interviewer. Ask me the questions and wait for my answers. Ask one question at a time.Ask me the questions individually like an interviewer and wait for my answers.Continue the process until I ask you to stop.And, you will stop the interview when I tell you to stop using the phrase “stop the interview”. After that, you would provide me feedback ```when I ask you using the phrase, “share your feedback”.The cumulative feedback generated at the end should be evaluated using the following rubrics. While grading my responses you have to very strict like a real interviewer. 1.Subject Matter Expertise 2.Communication skills 3. Problem Solving skills 4.Hiring criteria : Options are Reject, Waitlist, Hire and Strong Hire. Feedback for Subject Matter Expertise and Communication skills should contain ratings on my interview responses from 0 - 10.So without any further delay `start the interview` with your first question ",
     "I want you to act as an interviewer. I will be the candidate and you will ask me the interview questions for the position of backend Software Developer.That will require me to have the following content:- Disadvantages of JDBC, Advantages of JPA over JDBC ,Entity Life Cycle,How to perform CRUD (Create, Read, Update & Delete) operation in hibernate, Granularity Mismatch, Inheritance Mapping,Association Mapping  .I want you to only reply as the interviewer. Ask me the questions and wait for my answers. Ask one question at a time.Ask me the questions individually like an interviewer and wait for my answers.Continue the process until I ask you to stop.And, you will stop the interview when I tell you to stop using the phrase “stop the interview”. After that, you would provide me feedback ```when I ask you using the phrase, “share your feedback”.The cumulative feedback generated at the end should be evaluated using the following rubrics. While grading my responses you have to very strict like a real interviewer. 1.Subject Matter Expertise 2.Communication skills 3. Problem Solving skills 4.Hiring criteria : Options are Reject, Waitlist, Hire and Strong Hire. Feedback for Subject Matter Expertise and Communication skills should contain ratings on my interview responses from 0 - 10.So without any further delay `start the interview` with your first question ",
 
     //"I want you to act as an interviewer. I will be the candidate and you will ask me the interview questions for the position of Node backend Software Developer.That will require me to have the following content: Express, Nodejs, MongoDB, javascript.I want you to only reply as the interviewer. Do not write all the conservation at once. I want you to only do the technical interview with me on coding. Ask me the questions and wait for my answers. I will say the phrase “start the interview” for you to start. Ask one question at a time  if I am not able to answer satisfactorily, give me feedback in this framework: ####D: Definition U: Usecase B: Benefit X: Extra Information##### {<Ask me the questions individually like an interviewer and wait for my answers.>} Questions can include both new questions and follow up questions from the previous questions. Continue the process until I ask you to stop.  And, you will stop the interview when I tell you to stop using the phrase “stop the interview”. After that, you would provide me feedback ```when I ask you using the phrase, “share your feedback”.The cumulative feedback generated at the end should be evaluated using the following rubrics. While grading my responses you have to very strict like a real interviewer. 1.Subject Matter Expertise 2.Communication skills 3. Problem Solving skills 4.Hiring criteria : Options are Reject, Waitlist, Hire and Strong Hire. Feedback for Subject Matter Expertise and Communication skills should contain ratings on my interview responses from 0 - 10. Some Example questions: 1.What is npm? 2.What is middleware and why is it used?  3.Explain the concept of modules in express.js 4.What is the significance of the package.json file? 5.What is RESTful API? These questions are sample question they need not to be included in actual questions. So without any further delay `start the interview` with your first question ",
@@ -16,24 +16,27 @@ export const ChatBox = () => {
 
     const inputRef = useRef<HTMLInputElement | null>(null);
     const [response, setResponse] = useState<boolean>(false);
+    const [end, setEnd] = useState<boolean>(false);
     const { id } = useParams()
     let myId = Number(id)
+    const navigate = useNavigate()
 
     const handleFeedback = () => {
         setMessage("share your feedback")
-        // setConversation([...conversation, message])
-        // sendMessage()
+        setEnd(true)
     }
 
     const handleEnd = () => {
-        setMessage("end the interview")
-        startNewConversation()
+        setMessage("");
+        startNewConversation();
+        navigate("/")
     }
 
     const [message, setMessage] = useState<string>(prompts[myId]);
     const [conversation, setConversation] = useState<string[]>([]);
 
     const sendMessage = async () => {
+        setResponse(true)
         try {
             const response = await axios.get('/chat', {
                 params: {
@@ -105,7 +108,7 @@ export const ChatBox = () => {
                     </div>
                 </div>
                 {
-                    conversation.map((message, index) => (
+                    conversation?.map((message, index) => (
                         index % 2 !== 0 ?
                             <div key={index} className="flex mb-2 justify-start">
                                 <div className="flex bg-yellow-100 rounded-lg p-2  px-5">
@@ -164,7 +167,7 @@ export const ChatBox = () => {
                     <FaRegEdit size={"20px"} className='m-1' />
                     GENERATE FEEDBACK
                 </button>
-                <button className='flex items-center bg-white p-3 text-red-700 font-medium rounded-lg hover:bg-gray-200' onClick={handleEnd}>
+                <button disabled={!end} className={`flex items-center bg-white p-3 text-red-700 font-medium rounded-lg hover:bg-gray-200 ${!end ? 'cursor-not-allowed' : ''}`} onClick={handleEnd}>
                     <FaRegWindowClose size={"20px"} className='m-1' />
                     END INTERVIEW
                 </button>
