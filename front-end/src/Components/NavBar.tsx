@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import logo from "../images/codefuse.png"
+import logo from "../images/codefuse-logo.png"
 import { AiOutlineBell } from 'react-icons/ai';
 const NavBar = () => {
   const navigation = [
@@ -56,7 +56,7 @@ const NavBar = () => {
         </div>
       </div>
 
-    </div>
+    </div >
   )
 }
 export default NavBar;
