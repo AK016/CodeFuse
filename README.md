@@ -21,6 +21,25 @@ CodeFuse is an interview taking platform that leverages the power of OpenAI's GP
 
 The frontend of CodeFuse is built using React and Tailwind CSS, providing a modern and responsive user interface. On the backend, we use Spring Boot and Java to handle requests, communicate with the OpenAI API, and manage interview data.
 
+## Screenshots
+
+- Homepage:
+  ![Homepage](https://github.com/AK016/CodeFuse/assets/123861375/b3fe33a2-870d-447c-81ba-94a31dd9ac06)
+
+
+- Domain Selection:
+  ![Domain Selection](https://github.com/AK016/CodeFuse/assets/123861375/7cc23961-6565-40d4-a06a-cea795ac7285)
+
+
+- Interview Platform Page:
+  ![Interview Platform](https://github.com/AK016/CodeFuse/assets/123861375/1234302b-745d-414f-bbcb-a575d307f5a9)
+
+
+- Actual Interview Page:
+  ![Actual Interview](https://github.com/AK016/CodeFuse/assets/123861375/4d3d04cc-9d13-4713-aec4-fa43d9aeed02)
+
+
+
 ## Features
 
 - Conduct interviews through a chat interface.
